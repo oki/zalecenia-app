@@ -1,45 +1,91 @@
 # Zalecenia
 
-PWA do tworzenia kart zaleceń po konsultacji neurologopedycznej. Działa w całości w przeglądarce
-(bez backendu), także offline. Dane są zapisane tylko w `localStorage` urządzenia.
+Offline-first PWA for creating printable neurological speech therapy recommendation cards for children.
 
-## Uruchomienie
+The app runs entirely in the browser — there is no backend. All data (catalog, settings and the
+current consultation draft) is stored only in the device's `localStorage`. The user interface is in Polish.
+
+## Features
+
+- **Consultation wizard** (4 steps: details → recommendations → extra → print)
+  - child's name, date, therapist (remembered) and age group
+  - recommendation list filtered by age group, with search
+  - per-print text edits of selected recommendations, without changing the catalog
+  - extra one-off recommendations for the current card
+  - the draft survives page reloads until "New consultation" clears it; no consultation history is kept
+- **A4 card printing** via the browser print dialog ("Save as PDF"), with logo, signature line and footer
+- **Editable catalog** — add, edit, delete and reorder categories and recommendations (drag & drop or arrows),
+  optional age tag per recommendation, restore defaults
+- **Settings** — logo, app name, card title/subtitle, footer, signature line
+- **Export / import** — JSON file with the catalog and/or settings
+- **PWA** — installable, works offline, prompts when a new version is available
+- Mobile-first layout, light and dark theme (follows the system setting)
+
+## Tech stack
+
+Vue 3 · Vite · Pinia · Vue Router · Tailwind CSS 4 · daisyUI 5 · vite-plugin-pwa · Vitest
+
+## Getting started
 
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm test           # testy logiki (Vitest)
-npm run build      # build produkcyjny do dist/
-npm run preview    # podgląd builda z service workerem (test offline)
+npm test           # unit tests (Vitest)
+npm run build      # production build to dist/
+npm run preview    # serve the build with the service worker (offline testing)
 ```
 
-Podgląd w rozmiarze telefonu podczas developmentu: `http://localhost:5173/tools/devices.html`
-(parametry: `?path=/katalog`, `&dark=1`).
+During development, `http://localhost:5173/tools/devices.html` shows the app in a phone-sized frame
+(query parameters: `?path=/katalog`, `&dark=1`).
 
-## Deploy (Vercel)
+## Deployment (Vercel)
 
-Import repozytorium w Vercel → preset **Vite** (build `npm run build`, output `dist`).
-`vercel.json` zawiera rewrite SPA oraz nagłówki cache dla `sw.js` i `assets/`.
+Import the repository in Vercel and keep the **Vite** framework preset (build command `npm run build`,
+output directory `dist`). `vercel.json` provides the SPA rewrite and cache headers for `sw.js` and `assets/`.
 
-## Struktura
+## Project structure
 
-| Ścieżka | Opis |
+| Path | Description |
 |---|---|
-| `src/data/seedCatalog.js` | domyślny katalog zaleceń (seed) |
-| `src/data/ageGroups.js` | grupy wiekowe i mapowanie tagów (`all`, `baby`, `1+`, `2+`, `3+`, `2-5`) |
-| `src/stores/` | Pinia: `catalog`, `settings`, `draft` (szkic bieżącej konsultacji), `ui` |
-| `src/views/` | Konsultacja (kreator 4 kroki), Katalog, Ustawienia |
-| `src/components/PrintCard.vue` | karta A4 – ten sam komponent w podglądzie i w druku |
-| `src/lib/transfer.js` | eksport / import JSON |
-| `src/styles/main.css` | motyw daisyUI „clean” (jasny/ciemny) + style druku |
+| `src/data/seedCatalog.js` | default recommendation catalog (seed data) |
+| `src/data/ageGroups.js` | age groups and tag mapping (`all`, `baby`, `1+`, `2+`, `3+`, `2-5`) |
+| `src/stores/` | Pinia stores: `catalog`, `settings`, `draft` (current consultation), `ui` |
+| `src/views/` | Consultation (wizard), Catalog, Settings |
+| `src/components/PrintCard.vue` | A4 card — the same component is used for the preview and for printing |
+| `src/lib/transfer.js` | JSON export / import |
+| `src/styles/main.css` | daisyUI "clean" theme (light/dark) and print styles |
 
-## Format pliku eksportu
+### Age groups
+
+| Age group | Visible tags |
+|---|---|
+| 0–12 months | `all`, `baby` |
+| 1–2 years | `all`, `baby`, `1+` |
+| 2–3 years | `all`, `1+`, `2+`, `2-5` |
+| 3–6 years | `all`, `1+`, `2+`, `3+`, `2-5` |
+| 6–12 years | `all`, `1+`, `2+`, `3+` |
+| All groups | all tags |
+
+## Export file format
 
 ```json
-{ "app": "zalecenia", "version": 1, "exportedAt": "…",
-  "catalog": [{ "id": "…", "name": "Kategoria", "items": [{ "id": "…", "text": "…", "age": "all" }] }],
-  "settings": { "appName": "…", "cardTitle": "…", "cardSubtitle": "…", "footer": "…",
-                "showSignature": true, "signatureLabel": "…", "logo": "data:image/png;base64,…", "therapist": "…" } }
+{
+  "app": "zalecenia",
+  "version": 1,
+  "exportedAt": "2026-10-20T12:00:00.000Z",
+  "catalog": [
+    { "id": "…", "name": "Category", "items": [{ "id": "…", "text": "…", "age": "all" }] }
+  ],
+  "settings": {
+    "appName": "…", "cardTitle": "…", "cardSubtitle": "…", "footer": "…",
+    "showSignature": true, "signatureLabel": "…", "logo": "data:image/png;base64,…", "therapist": "…"
+  }
+}
 ```
 
-Sekcje `catalog` i `settings` są opcjonalne. Import zastępuje sekcje obecne w pliku.
+Both `catalog` and `settings` are optional. Importing replaces the sections present in the file.
+
+## Privacy
+
+Patient data is never sent anywhere. The only stored patient data is the current consultation draft
+on the device, which is removed with "New consultation".

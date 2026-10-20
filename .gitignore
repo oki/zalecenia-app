@@ -5,6 +5,7 @@ dev-dist
 *.local
 .vercel
 
-# Materiały wejściowe (nie publikować)
+# Local working files (not published)
 prompt.txt
+PLAN.md
 podglad-karty.png
