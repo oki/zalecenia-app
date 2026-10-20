@@ -1,0 +1,22 @@
+<!doctype html>
+<!-- Narzędzie deweloperskie: podgląd aplikacji w rozmiarach urządzeń (npm run dev → /tools/devices.html) -->
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <title>Podgląd urządzeń</title>
+  <style>
+    body { margin: 0; padding: 16px; background: #d1d5db; font: 13px system-ui; display: flex; gap: 24px; align-items: flex-start; }
+    figure { margin: 0; }
+    figcaption { margin-bottom: 6px; color: #374151; }
+    iframe { border: 0; border-radius: 16px; background: #fff; box-shadow: 0 4px 20px rgb(0 0 0 / .15); }
+  </style>
+</head>
+<body>
+  <figure><figcaption>Telefon 390×844</figcaption><iframe id="phone" src="/" width="390" height="844"></iframe></figure>
+  <script>
+    const p = new URLSearchParams(location.search)
+    if (p.get('path')) document.getElementById('phone').src = p.get('path')
+    if (p.get('dark')) document.getElementById('phone').style.colorScheme = 'dark'
+  </script>
+</body>
+</html>

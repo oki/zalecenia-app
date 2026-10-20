@@ -1,0 +1,146 @@
+@import 'tailwindcss';
+
+@plugin 'daisyui' {
+  themes: false;
+}
+
+/* Motyw „clean” (typeui.sh/design-skills/clean). Primary/secondary przyciemnione
+   do odcieni spełniających WCAG AA dla białego tekstu (#3B82F6 → #2563EB, #8B5CF6 → #7C3AED). */
+@plugin 'daisyui/theme' {
+  name: 'clean';
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+  --color-base-100: #ffffff;
+  --color-base-200: #f5f7fa;
+  --color-base-300: #e5e7eb;
+  --color-base-content: #111827;
+  --color-primary: #2563eb;
+  --color-primary-content: #ffffff;
+  --color-secondary: #7c3aed;
+  --color-secondary-content: #ffffff;
+  --color-accent: #3b82f6;
+  --color-accent-content: #ffffff;
+  --color-neutral: #1f2937;
+  --color-neutral-content: #f9fafb;
+  --color-info: #3b82f6;
+  --color-info-content: #ffffff;
+  --color-success: #16a34a;
+  --color-success-content: #ffffff;
+  --color-warning: #d97706;
+  --color-warning-content: #ffffff;
+  --color-error: #dc2626;
+  --color-error-content: #ffffff;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin 'daisyui/theme' {
+  name: 'clean-dark';
+  default: false;
+  prefersdark: true;
+  color-scheme: dark;
+  --color-base-100: #111827;
+  --color-base-200: #0b1120;
+  --color-base-300: #1f2937;
+  --color-base-content: #f3f4f6;
+  --color-primary: #60a5fa;
+  --color-primary-content: #0b1120;
+  --color-secondary: #a78bfa;
+  --color-secondary-content: #0b1120;
+  --color-accent: #60a5fa;
+  --color-accent-content: #0b1120;
+  --color-neutral: #e5e7eb;
+  --color-neutral-content: #111827;
+  --color-info: #60a5fa;
+  --color-info-content: #0b1120;
+  --color-success: #4ade80;
+  --color-success-content: #0b1120;
+  --color-warning: #fbbf24;
+  --color-warning-content: #0b1120;
+  --color-error: #f87171;
+  --color-error-content: #0b1120;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@theme {
+  --font-sans: 'Roboto', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Poppins', 'Roboto', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Inconsolata', ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-base-200 text-base-content font-sans antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  display: none;
+}
+
+.pb-safe {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* ===== Wydruk ===== */
+#print-root {
+  display: none;
+}
+
+@page {
+  size: A4;
+  margin: 14mm 16mm;
+}
+
+@media print {
+  html,
+  body {
+    background: #fff !important;
+  }
+  #app {
+    display: none !important;
+  }
+  #print-root {
+    display: block;
+  }
+}
