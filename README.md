@@ -2,8 +2,29 @@
 
 Offline-first PWA for creating printable neurological speech therapy recommendation cards for children.
 
+**Live app: [zalecenia-app.vercel.app](https://zalecenia-app.vercel.app/)**
+
 The app runs entirely in the browser — there is no backend. All data (catalog, settings and the
 current consultation draft) is stored only in the device's `localStorage`. The user interface is in Polish.
+
+## Screenshots
+
+<p>
+  <img src="docs/screenshots/mobile-details.png" width="200" alt="Consultation details (mobile)">
+  <img src="docs/screenshots/mobile-recommendations.png" width="200" alt="Selecting recommendations with a per-print edit (mobile)">
+  <img src="docs/screenshots/mobile-print-preview.png" width="200" alt="A4 card preview (mobile)">
+  <img src="docs/screenshots/mobile-dark.png" width="200" alt="Dark theme (mobile)">
+</p>
+
+![Selecting recommendations with a live A4 preview](docs/screenshots/desktop-recommendations.png)
+
+![A4 card preview before printing](docs/screenshots/desktop-print-preview.png)
+
+![Editable recommendation catalog](docs/screenshots/desktop-catalog.png)
+
+<img src="docs/screenshots/mobile-settings.png" width="200" alt="Settings: logo, card texts, export and import">
+
+All data shown in the screenshots (names, logo, address) is fictional.
 
 ## Features
 
